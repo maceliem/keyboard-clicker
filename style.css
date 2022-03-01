@@ -1,7 +1,18 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 90vh;
+}
+
+#currencies {
+    width: 500px;
+    height: 100px;
+    text-align: center;
+}
+
 #keyboard {
-    position: absolute;
-    left: calc(50% - 250px);
-    top: calc(50% - 250px);
     display: flex;
     justify-content: center;
     align-items: center;
