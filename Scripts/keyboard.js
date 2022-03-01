@@ -1,8 +1,7 @@
 let clicks = 0
 
 
-document.addEventListener("keypress", function (event) {
-    let clicks = 0    
+document.addEventListener("keypress", function (event) { 
     let key = event.key.toUpperCase()
     if (!key.match(/[A-Z]|[ÆØÅ]/)) return
     let element = document.getElementById(key)
