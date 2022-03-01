@@ -1,8 +1,3 @@
-body {
-    height: 100vh;
-    margin: 0px;
-}
-
 #keyboard {
     position: absolute;
     left: calc(50% - 250px);
@@ -24,6 +19,7 @@ body {
 #keyboard p {
     border: solid 2px black;
     padding: 10px;
+    display: none;
 }
 
 .pressed {
