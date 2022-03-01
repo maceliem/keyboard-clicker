@@ -1,21 +1,30 @@
 let clicks = 0
+let keyAmount = 0
+let keyMax = 4
 let keys = {}
 
 document.addEventListener("keypress", function (event) {
-    let key = event.key.toUpperCase()
-    if (!key.match(/[A-Z]|[ÆØÅ]/)) return
+    let keyName = event.key.toUpperCase()
+    if (!keyName.match(/[A-Z]|[ÆØÅ]/)) return
 
-    if (!(key in keys)) keys[key] = new Key(key)
+    if (!(keyName in keys)) {
+        if(keyAmount >= keyMax) return
+        keys[keyName] = new Key(keyName)
+        keyAmount++
+    }
 
-    let element = document.getElementById(key)
+    let element = document.getElementById(keyName)
+    let key = keys[keyName]
+    if (key.pressed) return
+
     element.classList.add("pressed")
     element.style.display = "block"
-    if (keys[key].pressed) return
-    keys[key].clicked()
-    clicks++
+    key.clicked()
+    clicks+= key.clickValue
     document.getElementById("clicks").innerHTML = `Clicks: ${clicks}`
+    document.getElementById("keyAmount").innerHTML = `keys: ${keyAmount}/${keyMax}`
     setTimeout(() => {
-        document.getElementById(key).classList.remove("pressed")
-        keys[key].pressed = false
-    }, 2000)
+        document.getElementById(keyName).classList.remove("pressed")
+        key.pressed = false
+    }, 500)
 });
