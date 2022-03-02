@@ -43,15 +43,21 @@ body {
 }
 
 #letterBonusBox {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
     align-items: center;
-    gap: 40px;
+    justify-items: center;
+    column-gap: 40px;
 }
 
 #letterBonus {
     display: flex;
     gap: 40px;
     font-size: 50px;
+}
+
+#letterBonus>p {
+    margin: 0px;
 }
 
 #resetLetterBonus {

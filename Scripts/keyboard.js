@@ -14,7 +14,13 @@ let letterBonus = {
     list: [],
     display: 3,
     multiplier: 2,
-    resetCooldown: 5000
+    resetCooldown: 5000,
+    combo: {
+        prog: 0,
+        perTier: 5,
+        tier: 0,
+        maxTier: 3
+    }
 }
 
 document.addEventListener("keypress", function (event) {
@@ -82,6 +88,7 @@ function unlock(unlocked) {
     if (unlocked == "keyAmount") { makeVisible("keyAmount"); keyStats.max++ }
     if (unlocked == "letterBonus") { generateNewBonusLetter(); makeVisible("letterBonus"); keyStats.max++ }
     if (unlocked == "letterBonusRedo") { makeVisible("resetLetterBonus") }
+    if (unlocked == "letterBonusCombo") { makeVisible("comboProg"); makeVisible("comboText") }
 }
 
 /**
@@ -156,10 +163,49 @@ function useBonusLetter(keyName) {
         if (letter == keyName) {
             letterBonus.list.splice(i, 1)
             generateBonusLetter()
+            letterBonusComboUp()
             return true
         } i++
     }
+    resetLetterBonusCombo()
     return false
+}
+
+/**
+ * Increase letterBonus combo
+ */
+function letterBonusComboUp() {
+    let prog = document.getElementById("comboProg")
+    let text = document.getElementById("comboText")
+    letterBonus.combo.prog++
+    if (letterBonus.combo.prog >= letterBonus.combo.perTier && letterBonus.combo.tier < letterBonus.combo.maxTier) {
+        unlock("letterBonusCombo")
+        letterBonus.combo.prog = 0
+        letterBonus.combo.tier++
+        if (letterBonus.combo.tier % 4 == 0) letterBonus.multiplier = 2 * Math.pow(10, Math.floor(letterBonus.combo.tier / 4))
+        if (letterBonus.combo.tier % 4 == 1) letterBonus.multiplier = 3 * Math.pow(10, Math.floor(letterBonus.combo.tier / 4))
+        if (letterBonus.combo.tier % 4 == 2) letterBonus.multiplier = 5 * Math.pow(10, Math.floor(letterBonus.combo.tier / 4))
+        if (letterBonus.combo.tier % 4 == 3) letterBonus.multiplier = 10 * Math.pow(10, Math.floor(letterBonus.combo.tier / 4))
+    }
+    prog.value = letterBonus.combo.prog
+    prog.max = letterBonus.combo.perTier
+    text.innerHTML = `${letterBonus.multiplier}x`
+    if (letterBonus.combo.tier == letterBonus.combo.maxTier) text.innerHTML += ` max`
+}
+
+
+/**
+ * Resets letterBonus combo
+ */
+function resetLetterBonusCombo() {
+    let prog = document.getElementById("comboProg")
+    let text = document.getElementById("comboText")
+    letterBonus.combo.prog = 0
+    letterBonus.combo.tier = 0
+    letterBonus.multiplier = 2
+    prog.value = letterBonus.combo.prog
+    prog.max = letterBonus.combo.perTier
+    text.innerHTML = `${letterBonus.multiplier}x`
 }
 
 /**
