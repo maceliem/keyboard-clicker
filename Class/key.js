@@ -1,4 +1,8 @@
 class Key {
+    /**
+     * 
+     * @param {string} name - name of key 
+     */
     constructor(name) {
         this.name = name
         this.clicks = 0

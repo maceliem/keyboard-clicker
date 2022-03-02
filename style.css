@@ -33,10 +33,12 @@ body {
 
 #keyboard p {
     border: solid 2px black;
+    transition: background 0.3s;
     padding: 10px;
 }
 
 .pressed {
+    
     background-color: red;
 }
 

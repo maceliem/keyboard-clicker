@@ -5,6 +5,7 @@ let keyStats = {
     max: 1
 }
 
+
 let keys = {}
 
 let unlockedList = {}
@@ -30,8 +31,7 @@ document.addEventListener("keypress", function (event) {
     if (key.pressed) return
 
     key.element.classList.add("pressed")
-    key.element.classList.add("visible")
-    //key.element.classList.remove("hidden")
+    makeVisible(keyName)
     key.clicked()
     let clickgain = key.clickValue
     if (unlockedList.letterBonus) if (useBonusLetter(keyName)) clickgain *= letterBonus.multiplier
@@ -45,11 +45,18 @@ document.addEventListener("keypress", function (event) {
     updateCurencies()
 });
 
+/**
+ * Update display of curencies
+ */
 function updateCurencies() {
     document.getElementById("clicks").innerHTML = `Clicks: ${clicks}`
     document.getElementById("keyAmount").innerHTML = `keys: ${keyStats.amount}/${keyStats.max}`
 }
 
+/**
+ * Checks if we're at a point to unlock something automaticly
+ * @returns {void}
+ */
 function checkUnlock() {
     if (clicks == 1) unlock("clicks")
     if (clicks == 5) unlock("keyAmount")
@@ -62,46 +69,59 @@ function checkUnlock() {
     }
 }
 
+/**
+ * Unlock a new element 
+ * @param {string} unlocked - Name of element to unlock
+ * @returns {void}
+ */
 function unlock(unlocked) {
     if (unlockedList[unlocked] == true) return
     unlockedList[unlocked] = true
     console.log("unlocked: ", unlocked)
-    if (unlocked == "clicks") {
-        document.getElementById("clicks").classList.add("visible")
-    }
-    if (unlocked == "keyAmount") {
-        document.getElementById("keyAmount").classList.add("visible")
-        document.getElementById("keyAmount").classList.remove("hidden")
-        keyStats.max++
-    }
-    if (unlocked == "letterBonus") {
-        generateNewBonusLetter()
-        document.getElementById("letterBonus").classList.add("visible")
-        document.getElementById("letterBonus").classList.remove("hidden")
-        keyStats.max++
-    }
-    if (unlocked == "letterBonusRedo") {
-        document.getElementById("resetLetterBonus").classList.add("visible")
-        document.getElementById("resetLetterBonus").classList.remove("hidden")
-    }
+    if (unlocked == "clicks") { makeVisible("clicks") }
+    if (unlocked == "keyAmount") { makeVisible("keyAmount"); keyStats.max++ }
+    if (unlocked == "letterBonus") { generateNewBonusLetter(); makeVisible("letterBonus"); keyStats.max++ }
+    if (unlocked == "letterBonusRedo") { makeVisible("resetLetterBonus") }
 }
 
+/**
+ * Removes class "hidden" and adds class "visible" to element
+ * @param {string} id - id of element
+ */
+function makeVisible(id) {
+    document.getElementById(id).classList.add("visible")
+    document.getElementById(id).classList.remove("hidden")
+}
+
+/**
+ * 
+ * @returns {string} Random owned letter
+ */
 function randomOwnedLetter() {
     let alphabet = Object.keys(keys)
     return (alphabet[Math.floor(Math.random() * alphabet.length)])
 }
 
+/**
+ * @returns {string} Random letter from A-Z
+ */
 function randomLetter() {
     let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return (alphabet[Math.floor(Math.random() * alphabet.length)])
 }
 
+/**
+ * Fill letterBonus list with owned letters
+ */
 function generateNewBonusLetter() {
     while (letterBonus.list.length < letterBonus.display) letterBonus.list.push(randomOwnedLetter())
 
     displayBonusLetter()
 }
 
+/**
+ * Fill letterBonus list with random letters, prefers owned letters
+ */
 function generateBonusLetter() {
     while (letterBonus.list.length < letterBonus.display) {
         if (Math.random() * 2 < 1) letterBonus.list.push(randomLetter())
@@ -111,6 +131,9 @@ function generateBonusLetter() {
     displayBonusLetter()
 }
 
+/**
+ * Updates LetterBonus display
+ */
 function displayBonusLetter() {
     let element = document.getElementById("letterBonus")
     while (element.firstChild) element.removeChild(element.lastChild)
@@ -122,8 +145,12 @@ function displayBonusLetter() {
     }
 }
 
+/**
+ * Checks if key is in letterBonus list
+ * @param {string} keyName - Name of key pressed
+ * @returns {boolean} True if key is in letterBonus
+ */
 function useBonusLetter(keyName) {
-    console.log()
     let i = 0
     for (letter of letterBonus.list) {
         if (letter == keyName) {
@@ -135,6 +162,9 @@ function useBonusLetter(keyName) {
     return false
 }
 
+/**
+ * Reset letterBonus list, and sets a cooldown on the button
+ */
 function resetLetterBonus() {
     let button = document.getElementById("resetLetterBonus")
     button.disabled = true
