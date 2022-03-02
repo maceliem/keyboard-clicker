@@ -40,8 +40,20 @@ body {
     background-color: red;
 }
 
+#letterBonusBox {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
 #letterBonus {
+    display: flex;
+    gap: 40px;
     font-size: 50px;
+}
+
+#resetLetterBonus {
+    width: 60px;
 }
 
 .hidden {

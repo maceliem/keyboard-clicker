@@ -6,6 +6,7 @@ class Key {
         this.clickCountValue = 1
         this.pressed = false
         this.element = document.getElementById(name)
+        this.cooldown = 200
     }
     clicked() {
         this.clicks += this.clickCountValue
