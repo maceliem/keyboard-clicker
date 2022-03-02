@@ -12,14 +12,6 @@ body {
     text-align: center;
 }
 
-#currencies>* {
-    display: none
-}
-
-#clicks {
-    display: block;
-}
-
 #keyboard {
     display: flex;
     justify-content: center;
@@ -42,9 +34,22 @@ body {
 #keyboard p {
     border: solid 2px black;
     padding: 10px;
-    display: none;
 }
 
 .pressed {
     background-color: red;
+}
+
+#letterBonus {
+    font-size: 50px;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.visible {
+    opacity: 1;
+    transition: opacity 1s;
 }
