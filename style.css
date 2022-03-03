@@ -96,7 +96,7 @@ body {
     width: 60px;
 }
 
-#shopButtons {
+#upgradeButtons {
     display: flex;
     justify-content: space-evenly;
 }

@@ -23,7 +23,7 @@ let letterBonus = {
     }
 }
 
-let selectedShopKey
+let selectedupgradeKey
 
 document.addEventListener("keypress", function (event) {
     let keyName = event.key.toUpperCase()
@@ -40,7 +40,7 @@ document.addEventListener("keypress", function (event) {
 
     key.element.classList.add("pressed")
     makeVisible(key.element.id)
-    makeVisible(`shop${keyName}`)
+    makeVisible(`upgrade${keyName}`)
     key.clicked()
     let clickgain = key.clickValue
     if (unlockedList.letterBonus) if (useBonusLetter(keyName)) clickgain *= letterBonus.multiplier
@@ -246,7 +246,7 @@ function resetLetterBonus() {
 }
 
 function changePage(page) {
-    let pageElements = ["game", "shop"]
+    let pageElements = ["game", "upgrade"]
     for (element of pageElements) {
         makeHidden(element)
         document.getElementById(`${element}Button`).classList.remove("active")
@@ -255,20 +255,20 @@ function changePage(page) {
     document.getElementById(`${page}Button`).classList.add("active")
 }
 
-function shopSelect(keyName) {
-    selectedShopKey = keyName
-    for (let key of Object.keys(keys)) document.getElementById(`shop${key}`).classList.remove("active")
-    document.getElementById(`shop${keyName}`).classList.add("active")
+function upgradeSelect(keyName) {
+    selectedupgradeKey = keyName
+    for (let key of Object.keys(keys)) document.getElementById(`upgrade${key}`).classList.remove("active")
+    document.getElementById(`upgrade${keyName}`).classList.add("active")
     let key = keys[keyName]
-    let buttons = document.getElementById("shopButtons").getElementsByTagName("button")
+    let buttons = document.getElementById("upgradeButtons").getElementsByTagName("button")
     for (button of buttons) {
         button.disabled = false
         button.getElementsByTagName("p")[0].innerHTML = `costs: ${key.upgradeCost[button.name]}`
     }
 }
 
-function shopButton(button, type, amount) {
-    let key = keys[selectedShopKey]
+function upgradeButton(button, type, amount) {
+    let key = keys[selectedupgradeKey]
     let price = key.upgradeCost[button.name]
     if (clicks < price) return alert("Not enough clicks")
     clicks -= price
