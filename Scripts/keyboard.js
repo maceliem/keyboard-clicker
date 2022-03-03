@@ -70,7 +70,7 @@ function checkUnlock() {
     if (clicks >= 1) unlock("clicks")
     if (clicks >= 5) unlock("keyAmount")
     if (clicks >= 20) unlock("letterBonus")
-    if (unlockedList.letterBonus) {
+    if (unlockedList.letterBonus) () => {
         for (letter of Object.keys(keys)) {
             if (letterBonus.list.includes(letter)) return
         }
@@ -244,9 +244,12 @@ function resetLetterBonus() {
     letterBonus.list = []
     generateNewBonusLetter()
 }
-
+/**
+ * Change current page 
+ * @param {string} page - name of new page
+ */
 function changePage(page) {
-    let pageElements = ["game", "upgrade"]
+    let pageElements = ["game", "upgrade", "perkPage"]
     for (element of pageElements) {
         makeHidden(element)
         document.getElementById(`${element}Button`).classList.remove("active")
@@ -255,6 +258,10 @@ function changePage(page) {
     document.getElementById(`${page}Button`).classList.add("active")
 }
 
+/**
+ * select key for upgrade 
+ * @param {string} keyName - name of key
+ */
 function upgradeSelect(keyName) {
     selectedupgradeKey = keyName
     for (let key of Object.keys(keys)) document.getElementById(`upgrade${key}`).classList.remove("active")
@@ -263,15 +270,24 @@ function upgradeSelect(keyName) {
     let buttons = document.getElementById("upgradeButtons").getElementsByTagName("button")
     for (button of buttons) {
         button.disabled = false
-        button.getElementsByTagName("p")[0].innerHTML = `costs: ${key.upgradeCost[button.name]}`
+        button.getElementsByTagName("p")[0].innerHTML = `curent: ${key[button.name]} costs: ${key.upgradeCost[button.name]}`
     }
 }
 
+/**
+ * applies upgrade to current key
+ * @param {element} button - the button element
+* @param {('+'|'-'|'*'|'/')} type - type of change
+ * @param {number} amount - amount of change
+ */
 function upgradeButton(button, type, amount) {
     let key = keys[selectedupgradeKey]
     let price = key.upgradeCost[button.name]
     if (clicks < price) return alert("Not enough clicks")
     clicks -= price
+    key.upgradeTier[button.name]++
     eval(`key[button.name] ${type}= ${amount}`)
+    key.upgradeCost[button.name] = Math.pow(key.upgradeTier[button.name], 2) * 10
     updateCurencies()
+    button.getElementsByTagName("p")[0].innerHTML = `curent: ${key[button.name]} costs: ${key.upgradeCost[button.name]}`
 }

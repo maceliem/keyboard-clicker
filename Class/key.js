@@ -14,6 +14,9 @@ class Key {
         this.upgradeCost = {
             clickValue: 50,
         }
+        this.upgradeTier = {
+            clickValue: 1,
+        }
     }
     clicked() {
         this.clicks += this.clickCountValue

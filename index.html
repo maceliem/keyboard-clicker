@@ -15,13 +15,13 @@
     <div id="menu" class="hidden">
         <button class="active" id="gameButton" onclick="changePage('game')">Keyboard</button>
         <button id="upgradeButton" onclick="changePage('upgrade')">upgrade</button>
+        <button id="perkPageButton" onclick="changePage('perkPage')">perks</button>
     </div>
     <div id="currencies">
         <p id="clicks" class="hidden"></p>
         <p id="keyAmount" class="hidden"></p>
     </div>
     <div id="game">
-
         <div id="letterBonusBox">
             <progress class="hidden" id="comboProg" min="0" max="10" value="4"></progress>
             <p class="hidden" id="comboText">2x</p>
@@ -104,6 +104,9 @@
                 <p class="hidden" onclick="upgradeSelect('M')" id="upgradeM">M</p>
             </div>
         </div>
+    </div>
+    <div id="perkPage" class="hidden noDisplay">
+        fisk
     </div>
 </body>
 
