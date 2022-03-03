@@ -18,17 +18,39 @@ body {
     transition: width 1s;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    gap: 20px;
+    padding-top: 20px;
 
 }
 
 #menu>button {
-    border-radius: 10px;
-    width: 90%;
+    background-color: rgb(248, 248, 255);
+    border-radius: 5px;
+    height: 5%;
+    width: 80%;
+    margin-left: 5px;
+    transition: background-color 1s;
+}
+#menu>button:hover {
+    background-color: rgb(208, 208, 215);
+    transition: background-color 0.5s;
+}
+
+#menu>button:hover:active {
+    background-color: rgb(178, 178, 185);
+    transition: background-color 0.5s;
+}
+
+#menu>button:disabled {
+    background-color: dimgray;
+}
+
+#menu>button.active {
+    background-color: aquamarine;
 }
 
 #menu.visible {
-    width: 150px;
+    width: 100px;
     border: solid 3px gray;
 }
 

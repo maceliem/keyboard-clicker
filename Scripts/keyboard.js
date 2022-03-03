@@ -116,6 +116,11 @@ function makeHidden(id) {
     document.getElementById(id).classList.add("noDisplay")
 }
 
+function unlockMenuButton(id, name) {
+    document.getElementById(id).innerHTML = name
+    document.getElementById(id).disabled = false
+}
+
 /**
  * 
  * @returns {string} Random owned letter
