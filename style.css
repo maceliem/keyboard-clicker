@@ -6,13 +6,39 @@ body {
     height: 90vh;
 }
 
+#menu {
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 0%;
+    width: 0px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-left: none;
+    transition: width 1s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+#menu>button {
+    border-radius: 10px;
+    width: 90%;
+}
+
+#menu.visible {
+    width: 150px;
+    border: solid 3px gray;
+}
+
 #currencies {
     width: 500px;
     height: 100px;
     text-align: center;
 }
 
-#keyboard {
+.keyboard {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +47,7 @@ body {
     width: 500px;
 }
 
-#keyboard div {
+.keyboard div {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -31,15 +57,21 @@ body {
     height: 100%;
 }
 
-#keyboard p {
+.row>p {
+    display: flex;
+    align-items: center;
+    justify-items: center;
     border: solid 2px black;
     transition: background 0.3s;
     padding: 10px;
 }
 
 .pressed {
-    
     background-color: red;
+}
+
+.active {
+    background-color: gray;
 }
 
 #letterBonusBox {
@@ -64,6 +96,11 @@ body {
     width: 60px;
 }
 
+#shopButtons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .hidden {
     opacity: 0;
     transition: opacity 1s;
@@ -72,4 +109,8 @@ body {
 .visible {
     opacity: 1;
     transition: opacity 1s;
+}
+
+.noDisplay {
+    display: none;
 }

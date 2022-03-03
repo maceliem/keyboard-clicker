@@ -9,8 +9,11 @@ class Key {
         this.clickValue = 1
         this.clickCountValue = 1
         this.pressed = false
-        this.element = document.getElementById(name)
+        this.element = document.getElementById(`key${name}`)
         this.cooldown = 1000
+        this.upgradeCost = {
+            clickValue: 50,
+        }
     }
     clicked() {
         this.clicks += this.clickCountValue

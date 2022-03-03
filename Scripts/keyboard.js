@@ -17,11 +17,13 @@ let letterBonus = {
     resetCooldown: 5000,
     combo: {
         prog: 0,
-        perTier: 5,
+        perTier: 10,
         tier: 0,
         maxTier: 3
     }
 }
+
+let selectedShopKey
 
 document.addEventListener("keypress", function (event) {
     let keyName = event.key.toUpperCase()
@@ -37,14 +39,15 @@ document.addEventListener("keypress", function (event) {
     if (key.pressed) return
 
     key.element.classList.add("pressed")
-    makeVisible(keyName)
+    makeVisible(key.element.id)
+    makeVisible(`shop${keyName}`)
     key.clicked()
     let clickgain = key.clickValue
     if (unlockedList.letterBonus) if (useBonusLetter(keyName)) clickgain *= letterBonus.multiplier
     clicks += clickgain
 
     setTimeout(() => {
-        document.getElementById(keyName).classList.remove("pressed")
+        document.getElementById(`key${keyName}`).classList.remove("pressed")
         key.pressed = false
     }, key.cooldown)
     checkUnlock()
@@ -64,15 +67,16 @@ function updateCurencies() {
  * @returns {void}
  */
 function checkUnlock() {
-    if (clicks == 1) unlock("clicks")
-    if (clicks == 5) unlock("keyAmount")
-    if (clicks == 20) unlock("letterBonus")
+    if (clicks >= 1) unlock("clicks")
+    if (clicks >= 5) unlock("keyAmount")
+    if (clicks >= 20) unlock("letterBonus")
     if (unlockedList.letterBonus) {
         for (letter of Object.keys(keys)) {
             if (letterBonus.list.includes(letter)) return
         }
         unlock("letterBonusRedo")
     }
+    if (clicks >= 50) unlock("menu")
 }
 
 /**
@@ -89,6 +93,7 @@ function unlock(unlocked) {
     if (unlocked == "letterBonus") { generateNewBonusLetter(); makeVisible("letterBonus"); keyStats.max++ }
     if (unlocked == "letterBonusRedo") { makeVisible("resetLetterBonus") }
     if (unlocked == "letterBonusCombo") { makeVisible("comboProg"); makeVisible("comboText") }
+    if (unlocked == "menu") { makeVisible("menu") }
 }
 
 /**
@@ -96,8 +101,19 @@ function unlock(unlocked) {
  * @param {string} id - id of element
  */
 function makeVisible(id) {
+    document.getElementById(id).classList.remove("noDisplay")
     document.getElementById(id).classList.add("visible")
     document.getElementById(id).classList.remove("hidden")
+}
+
+/**
+ * Removes class "visible" and adds class "hidden" to element
+ * @param {string} id - id of element
+ */
+function makeHidden(id) {
+    document.getElementById(id).classList.remove("visible")
+    document.getElementById(id).classList.add("hidden")
+    document.getElementById(id).classList.add("noDisplay")
 }
 
 /**
@@ -227,4 +243,35 @@ function resetLetterBonus() {
     }, letterBonus.resetCooldown)
     letterBonus.list = []
     generateNewBonusLetter()
+}
+
+function changePage(page) {
+    let pageElements = ["game", "shop"]
+    for (element of pageElements) {
+        makeHidden(element)
+        document.getElementById(`${element}Button`).classList.remove("active")
+    }
+    makeVisible(page)
+    document.getElementById(`${page}Button`).classList.add("active")
+}
+
+function shopSelect(keyName) {
+    selectedShopKey = keyName
+    for (let key of Object.keys(keys)) document.getElementById(`shop${key}`).classList.remove("active")
+    document.getElementById(`shop${keyName}`).classList.add("active")
+    let key = keys[keyName]
+    let buttons = document.getElementById("shopButtons").getElementsByTagName("button")
+    for (button of buttons) {
+        button.disabled = false
+        button.getElementsByTagName("p")[0].innerHTML = `costs: ${key.upgradeCost[button.name]}`
+    }
+}
+
+function shopButton(button, type, amount) {
+    let key = keys[selectedShopKey]
+    let price = key.upgradeCost[button.name]
+    if (clicks < price) return alert("Not enough clicks")
+    clicks -= price
+    eval(`key[button.name] ${type}= ${amount}`)
+    updateCurencies()
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,50 +10,101 @@
     <script src="Class/key.js"></script>
     <script src="Scripts/keyboard.js"></script>
 </head>
-<body>
+
+<body onload="makeVisible('menu')">
+    <div id="menu" class="hidden">
+        <button class="active" id="gameButton" onclick="changePage('game')">Keyboard</button>
+        <button id="shopButton" onclick="changePage('shop')">Shop</button>
+    </div>
     <div id="currencies">
         <p id="clicks" class="hidden"></p>
         <p id="keyAmount" class="hidden"></p>
     </div>
-    <div id="letterBonusBox">
-        <progress class="hidden" id="comboProg" min="0" max="5" value="4"></progress>
-        <p class="hidden" id="comboText">2x</p>
-        <div id="letterBonus" class="hidden"></div>
-        <button id="resetLetterBonus" class="hidden" onclick="resetLetterBonus()">Reset</button>
+    <div id="game">
+
+        <div id="letterBonusBox">
+            <progress class="hidden" id="comboProg" min="0" max="10" value="4"></progress>
+            <p class="hidden" id="comboText">2x</p>
+            <div id="letterBonus" class="hidden"></div>
+            <button id="resetLetterBonus" class="hidden" onclick="resetLetterBonus()">Reset</button>
+        </div>
+        <div class="keyboard" id="keyboard">
+            <div class="row">
+                <p class="hidden" id="keyQ">Q</p>
+                <p class="hidden" id="keyW">W</p>
+                <p class="hidden" id="keyE">E</p>
+                <p class="hidden" id="keyR">R</p>
+                <p class="hidden" id="keyT">T</p>
+                <p class="hidden" id="keyY">Y</p>
+                <p class="hidden" id="keyU">U</p>
+                <p class="hidden" id="keyI">I</p>
+                <p class="hidden" id="keyO">O</p>
+                <p class="hidden" id="keyP">P</p>
+            </div>
+            <div class="row">
+                <p class="hidden" id="keyA">A</p>
+                <p class="hidden" id="keyS">S</p>
+                <p class="hidden" id="keyD">D</p>
+                <p class="hidden" id="keyF">F</p>
+                <p class="hidden" id="keyG">G</p>
+                <p class="hidden" id="keyH">H</p>
+                <p class="hidden" id="keyJ">J</p>
+                <p class="hidden" id="keyK">K</p>
+                <p class="hidden" id="keyL">L</p>
+            </div>
+            <div class="row">
+                <p class="hidden" id="keyZ">Z</p>
+                <p class="hidden" id="keyX">X</p>
+                <p class="hidden" id="keyC">C</p>
+                <p class="hidden" id="keyV">V</p>
+                <p class="hidden" id="keyB">B</p>
+                <p class="hidden" id="keyN">N</p>
+                <p class="hidden" id="keyM">M</p>
+            </div>
+        </div>
     </div>
-    <div id="keyboard">
-        <div id="row0" class="row">
-            <p class="hidden" id="Q">Q</p>
-            <p class="hidden" id="W">W</p>
-            <p class="hidden" id="E">E</p>
-            <p class="hidden" id="R">R</p>
-            <p class="hidden" id="T">T</p>
-            <p class="hidden" id="Y">Y</p>
-            <p class="hidden" id="U">U</p>
-            <p class="hidden" id="I">I</p>
-            <p class="hidden" id="O">O</p>
-            <p class="hidden" id="P">P</p>
+    <div id="shop" class="hidden noDisplay">
+        <div id="shopButtons">
+            <button name="clickValue" disabled onclick="shopButton(this, '+', 1)">
+                <h1>key value +1</h1>
+                <p>select a key first</p>
+            </button>
         </div>
-        <div id="row1" class="row">
-            <p class="hidden" id="A">A</p>
-            <p class="hidden" id="S">S</p>
-            <p class="hidden" id="D">D</p>
-            <p class="hidden" id="F">F</p>
-            <p class="hidden" id="G">G</p>
-            <p class="hidden" id="H">H</p>
-            <p class="hidden" id="J">J</p>
-            <p class="hidden" id="K">K</p>
-            <p class="hidden" id="L">L</p>
-        </div>
-        <div id="row2" class="row">
-            <p class="hidden" id="Z">Z</p>
-            <p class="hidden" id="X">X</p>
-            <p class="hidden" id="C">C</p>
-            <p class="hidden" id="V">V</p>
-            <p class="hidden" id="B">B</p>
-            <p class="hidden" id="N">N</p>
-            <p class="hidden" id="M">M</p>
+        <div class="keyboard" id="shopKeyboard">
+            <div class="row">
+                <p class="hidden" onclick="shopSelect('Q')" id="shopQ">Q</p>
+                <p class="hidden" onclick="shopSelect('W')" id="shopW">W</p>
+                <p class="hidden" onclick="shopSelect('E')" id="shopE">E</p>
+                <p class="hidden" onclick="shopSelect('R')" id="shopR">R</p>
+                <p class="hidden" onclick="shopSelect('T')" id="shopT">T</p>
+                <p class="hidden" onclick="shopSelect('Y')" id="shopY">Y</p>
+                <p class="hidden" onclick="shopSelect('U')" id="shopU">U</p>
+                <p class="hidden" onclick="shopSelect('I')" id="shopI">I</p>
+                <p class="hidden" onclick="shopSelect('O')" id="shopO">O</p>
+                <p class="hidden" onclick="shopSelect('P')" id="shopP">P</p>
+            </div>
+            <div class="row">
+                <p class="hidden" onclick="shopSelect('A')" id="shopA">A</p>
+                <p class="hidden" onclick="shopSelect('S')" id="shopS">S</p>
+                <p class="hidden" onclick="shopSelect('D')" id="shopD">D</p>
+                <p class="hidden" onclick="shopSelect('F')" id="shopF">F</p>
+                <p class="hidden" onclick="shopSelect('G')" id="shopG">G</p>
+                <p class="hidden" onclick="shopSelect('H')" id="shopH">H</p>
+                <p class="hidden" onclick="shopSelect('J')" id="shopJ">J</p>
+                <p class="hidden" onclick="shopSelect('K')" id="shopK">K</p>
+                <p class="hidden" onclick="shopSelect('L')" id="shopL">L</p>
+            </div>
+            <div class="row">
+                <p class="hidden" onclick="shopSelect('Z')" id="shopZ">Z</p>
+                <p class="hidden" onclick="shopSelect('X')" id="shopX">X</p>
+                <p class="hidden" onclick="shopSelect('C')" id="shopC">C</p>
+                <p class="hidden" onclick="shopSelect('V')" id="shopV">V</p>
+                <p class="hidden" onclick="shopSelect('B')" id="shopB">B</p>
+                <p class="hidden" onclick="shopSelect('N')" id="shopN">N</p>
+                <p class="hidden" onclick="shopSelect('M')" id="shopM">M</p>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
