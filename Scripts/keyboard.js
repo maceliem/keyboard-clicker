@@ -70,11 +70,11 @@ function checkUnlock() {
     if (clicks >= 1) unlock("clicks")
     if (clicks >= 5) unlock("keyAmount")
     if (clicks >= 20) unlock("letterBonus")
-    if (unlockedList.letterBonus) () => {
-        for (letter of Object.keys(keys)) {
-            if (letterBonus.list.includes(letter)) return
+    if (unlockedList.letterBonus) {
+        if (!Object.keys(keys).some((element) => letterBonus.list.includes(element))) {
+            console.log("fisk")
+            unlock("letterBonusRedo")
         }
-        unlock("letterBonusRedo")
     }
     if (clicks >= 50) unlock("menu")
 }
@@ -177,9 +177,17 @@ function useBonusLetter(keyName) {
     let i = 0
     for (letter of letterBonus.list) {
         if (letter == keyName) {
-            letterBonus.list.splice(i, 1)
-            generateBonusLetter()
             letterBonusComboUp()
+            document.getElementById("letterBonus").childNodes[i].style.opacity = 1
+            let interval = setInterval(() => {
+                document.getElementById("letterBonus").childNodes[i].style.opacity -= 0.1
+            }, 50)
+            setTimeout(() => {
+                letterBonus.list.splice(i, 1)
+                generateBonusLetter()
+                clearInterval(interval)
+                checkUnlock()
+            }, 600)
             return true
         } i++
     }
@@ -291,3 +299,4 @@ function upgradeButton(button, type, amount) {
     updateCurencies()
     button.getElementsByTagName("p")[0].innerHTML = `curent: ${key[button.name]} costs: ${key.upgradeCost[button.name]}`
 }
+
