@@ -14,7 +14,7 @@
 <body>
     <div id="menu" class="hidden">
         <button class="active" id="gameButton" onclick="changePage('game')">Keyboard</button>
-        <button id="upgradeButton" onclick="changePage('upgrade')">upgrade</button>
+        <button id="upgradeButton" onclick="changePage('upgrade')">Upgrade</button>
         <button id="milestonesButton" onclick="changePage('milestones')" disabled>???</button>
         <button id="" onclick="changePage('')" disabled>???</button>
         <button id="" onclick="changePage('')" disabled>???</button>
@@ -74,49 +74,64 @@
             </div>
         </div>
         <div id="upgrade" class="hidden noDisplay">
-            <div id="upgradeButtons">
-                <button name="clickValue" disabled onclick="upgradeButton(this, '+', 1)">
-                    <h1>key value +1</h1>
-                    <p>select a key first</p>
+            <div class="tabs">
+                <button class="active" onclick="upgradeTab('basicUpgrades', this)">Basic Upgrades</button>
+                <button onclick="upgradeTab('keyUpgrades', this)">Key Upgrades</button>
+            </div>
+            <div id="basicUpgrades">
+                <button onclick="upgradeButton(this, 50, 'keyStats.max++')" >
+                    <h1>Increase max keys by 1</h1>
+                    <p>costs 50 clicks</p>
+                </button>
+                <button onclick="upgradeButton(this, 200, 'letterBonus.combo.maxTier++')" >
+                    <h1>Increase letter combo bonus max tier by 1</h1>
+                    <p>costs 200 clicks</p>
                 </button>
             </div>
-            <div class="keyboard" id="upgradeKeyboard">
-                <div class="row">
-                    <p class="hidden" onclick="upgradeSelect('Q')" id="upgradeQ">Q</p>
-                    <p class="hidden" onclick="upgradeSelect('W')" id="upgradeW">W</p>
-                    <p class="hidden" onclick="upgradeSelect('E')" id="upgradeE">E</p>
-                    <p class="hidden" onclick="upgradeSelect('R')" id="upgradeR">R</p>
-                    <p class="hidden" onclick="upgradeSelect('T')" id="upgradeT">T</p>
-                    <p class="hidden" onclick="upgradeSelect('Y')" id="upgradeY">Y</p>
-                    <p class="hidden" onclick="upgradeSelect('U')" id="upgradeU">U</p>
-                    <p class="hidden" onclick="upgradeSelect('I')" id="upgradeI">I</p>
-                    <p class="hidden" onclick="upgradeSelect('O')" id="upgradeO">O</p>
-                    <p class="hidden" onclick="upgradeSelect('P')" id="upgradeP">P</p>
+            <div id="keyUpgrades" class="hidden noDisplay">
+                <div id="upgradeButtons">
+                    <button name="clickValue" disabled onclick="upgradeKeyButton(this, '+', 1)">
+                        <h1>key value +1</h1>
+                        <p>select a key first</p>
+                    </button>
                 </div>
-                <div class="row">
-                    <p class="hidden" onclick="upgradeSelect('A')" id="upgradeA">A</p>
-                    <p class="hidden" onclick="upgradeSelect('S')" id="upgradeS">S</p>
-                    <p class="hidden" onclick="upgradeSelect('D')" id="upgradeD">D</p>
-                    <p class="hidden" onclick="upgradeSelect('F')" id="upgradeF">F</p>
-                    <p class="hidden" onclick="upgradeSelect('G')" id="upgradeG">G</p>
-                    <p class="hidden" onclick="upgradeSelect('H')" id="upgradeH">H</p>
-                    <p class="hidden" onclick="upgradeSelect('J')" id="upgradeJ">J</p>
-                    <p class="hidden" onclick="upgradeSelect('K')" id="upgradeK">K</p>
-                    <p class="hidden" onclick="upgradeSelect('L')" id="upgradeL">L</p>
-                </div>
-                <div class="row">
-                    <p class="hidden" onclick="upgradeSelect('Z')" id="upgradeZ">Z</p>
-                    <p class="hidden" onclick="upgradeSelect('X')" id="upgradeX">X</p>
-                    <p class="hidden" onclick="upgradeSelect('C')" id="upgradeC">C</p>
-                    <p class="hidden" onclick="upgradeSelect('V')" id="upgradeV">V</p>
-                    <p class="hidden" onclick="upgradeSelect('B')" id="upgradeB">B</p>
-                    <p class="hidden" onclick="upgradeSelect('N')" id="upgradeN">N</p>
-                    <p class="hidden" onclick="upgradeSelect('M')" id="upgradeM">M</p>
+                <div class="keyboard" id="upgradeKeyboard">
+                    <div class="row">
+                        <p class="hidden" onclick="upgradeSelect('Q')" id="upgradeQ">Q</p>
+                        <p class="hidden" onclick="upgradeSelect('W')" id="upgradeW">W</p>
+                        <p class="hidden" onclick="upgradeSelect('E')" id="upgradeE">E</p>
+                        <p class="hidden" onclick="upgradeSelect('R')" id="upgradeR">R</p>
+                        <p class="hidden" onclick="upgradeSelect('T')" id="upgradeT">T</p>
+                        <p class="hidden" onclick="upgradeSelect('Y')" id="upgradeY">Y</p>
+                        <p class="hidden" onclick="upgradeSelect('U')" id="upgradeU">U</p>
+                        <p class="hidden" onclick="upgradeSelect('I')" id="upgradeI">I</p>
+                        <p class="hidden" onclick="upgradeSelect('O')" id="upgradeO">O</p>
+                        <p class="hidden" onclick="upgradeSelect('P')" id="upgradeP">P</p>
+                    </div>
+                    <div class="row">
+                        <p class="hidden" onclick="upgradeSelect('A')" id="upgradeA">A</p>
+                        <p class="hidden" onclick="upgradeSelect('S')" id="upgradeS">S</p>
+                        <p class="hidden" onclick="upgradeSelect('D')" id="upgradeD">D</p>
+                        <p class="hidden" onclick="upgradeSelect('F')" id="upgradeF">F</p>
+                        <p class="hidden" onclick="upgradeSelect('G')" id="upgradeG">G</p>
+                        <p class="hidden" onclick="upgradeSelect('H')" id="upgradeH">H</p>
+                        <p class="hidden" onclick="upgradeSelect('J')" id="upgradeJ">J</p>
+                        <p class="hidden" onclick="upgradeSelect('K')" id="upgradeK">K</p>
+                        <p class="hidden" onclick="upgradeSelect('L')" id="upgradeL">L</p>
+                    </div>
+                    <div class="row">
+                        <p class="hidden" onclick="upgradeSelect('Z')" id="upgradeZ">Z</p>
+                        <p class="hidden" onclick="upgradeSelect('X')" id="upgradeX">X</p>
+                        <p class="hidden" onclick="upgradeSelect('C')" id="upgradeC">C</p>
+                        <p class="hidden" onclick="upgradeSelect('V')" id="upgradeV">V</p>
+                        <p class="hidden" onclick="upgradeSelect('B')" id="upgradeB">B</p>
+                        <p class="hidden" onclick="upgradeSelect('N')" id="upgradeN">N</p>
+                        <p class="hidden" onclick="upgradeSelect('M')" id="upgradeM">M</p>
+                    </div>
                 </div>
             </div>
         </div>
         <div id="milestones" class="hidden noDisplay">
-            <p id="totalClicks"></p>
             <div class="tabs">
                 <button class="active" onclick="milestoneTab('milestoneOverview', this)">Overview</button>
                 <button onclick="milestoneTab('totalMilestones', this)">Total Milestones</button>

@@ -110,7 +110,7 @@ function unlock(unlocked) {
     if (unlocked == "letterBonusRedo") { makeVisible("resetLetterBonus") }
     if (unlocked == "letterBonusCombo") { makeVisible("comboProg"); makeVisible("comboText") }
     if (unlocked == "menu") { makeVisible("menu") }
-    if (unlocked == "milestones") {unlockMenuButton("milestones")}
+    if (unlocked == "milestones") { unlockMenuButton("milestonesButton", "Milestones") }
 }
 
 /**
@@ -304,13 +304,29 @@ function upgradeSelect(keyName) {
     }
 }
 
+
+function upgradeButton(button, price, effect) {
+    if (clicks < price) return alert("Not enough clicks")
+    clicks -= price
+    eval(effect)
+    updateCurencies()
+    button.disabled = true
+    button.style.opacity = 1
+    let interval = setInterval(() => {
+        button.style.opacity -= 0.1
+    }, 50)
+    setTimeout(() => {
+        clearInterval(interval)
+        button.remove()
+    }, 600)
+}
 /**
  * applies upgrade to current key
  * @param {element} button - the button element
 * @param {('+'|'-'|'*'|'/')} type - type of change
  * @param {number} amount - amount of change
  */
-function upgradeButton(button, type, amount) {
+function upgradeKeyButton(button, type, amount) {
     let key = keys[selectedupgradeKey]
     let price = key.upgradeCost[button.name]
     if (clicks < price) return alert("Not enough clicks")
@@ -341,9 +357,10 @@ function updateMilestones() {
         if (key.clicks % 10 == 0) milestoneUp(key)
 
         let totalMilestonesTab = document.getElementById("totalMilestones")
-        while (totalMilestonesTab.firstChild) {
+        /*while (totalMilestonesTab.firstChild) {
             totalMilestonesTab.removeChild(totalMilestonesTab.lastChild)
-        }
+        }*/
+        totalMilestonesTab.innerHTML = ``
         for (let name of Object.keys(totalMilestones)) for (let milestone of totalMilestones[name]) {
             let mE = document.createElement("div")
             if (!milestone.done) mE.classList.add("active")
@@ -377,6 +394,17 @@ function milestoneTab(name, elm) {
         else makeHidden(thing)
     }
     for (button of document.getElementById("milestones").getElementsByClassName("tabs")[0].getElementsByTagName("button")) {
+        button.classList.remove("active")
+    }
+    elm.classList.add("active")
+}
+
+function upgradeTab(name, elm) {
+    for (thing of ["basicUpgrades", "keyUpgrades"]) {
+        if (name == thing) makeVisible(thing)
+        else makeHidden(thing)
+    }
+    for (button of document.getElementById("upgrade").getElementsByClassName("tabs")[0].getElementsByTagName("button")) {
         button.classList.remove("active")
     }
     elm.classList.add("active")

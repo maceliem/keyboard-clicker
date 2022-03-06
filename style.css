@@ -3,12 +3,14 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 90vh;
 }
 
-body>div {
-    width: 60%;
-    height: 80%;
+#pages {
+    position: absolute;
+    left: 110px;
+    right: 110px;
+    top: 120px;
+    bottom: 10px;
 }
 
 #menu {
@@ -61,7 +63,7 @@ body>div {
 }
 
 #currencies {
-    width: 500px;
+    top: 0;
     height: 100px;
     text-align: center;
 }
@@ -102,6 +104,13 @@ body>div {
     background-color: gray;
 }
 
+#game {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
+
 #letterBonusBox {
     display: grid;
     grid-template-columns: auto auto;
@@ -124,9 +133,25 @@ body>div {
     width: 60px;
 }
 
-#upgradeButtons {
+#upgrade>*:not(.tabs) {
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#upgrade>*:not(.tabs)>* {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#basicUpgrades>button>h1 {
+    width: 70%;
+}
+
+#basicUpgrades>button>p {
+    width: 30%;
 }
 
 .hidden {
@@ -140,16 +165,13 @@ body>div {
 }
 
 .noDisplay {
-    display: none;
+    display: none !important;
 }
 
 .tabs {
-    position: absolute;
     display: flex;
-    top: 120px;
-    left: 150px;
-    right: 150px;
     border-bottom: solid 1px black;
+    margin-bottom: 20px;
 }
 
 .tabs>button {
@@ -157,4 +179,8 @@ body>div {
     padding: 5px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+}
+
+#totalMilestones>* {
+    border: solid 1px black;
 }
