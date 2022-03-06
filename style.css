@@ -11,6 +11,13 @@ body {
     right: 110px;
     top: 120px;
     bottom: 10px;
+    align-items: center;
+}
+
+#pages>* {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #menu {
@@ -108,6 +115,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     height: 100%;
 }
 
@@ -170,6 +178,7 @@ body {
 
 .tabs {
     display: flex;
+    width: 100%;
     border-bottom: solid 1px black;
     margin-bottom: 20px;
 }
@@ -181,6 +190,16 @@ body {
     border-top-right-radius: 10px;
 }
 
+#totalMilestones {
+    display: grid;
+    width: 90%;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 20px;
+}
+
 #totalMilestones>* {
+    text-align: center;
+    font-size: 18px;
     border: solid 1px black;
+    padding: 20px;
 }
