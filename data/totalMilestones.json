@@ -1,0 +1,16 @@
+{
+    "50": [
+        {
+            "requires": 1,
+            "description": "Increases max keys by 2",
+            "effect": "keyStats.max+=2",
+            "done": false
+        },
+        {
+            "requires": 5,
+            "description": "Increases max keys by 5",
+            "effect": "keyStats.max+=5",
+            "done": false
+        }
+    ]
+}

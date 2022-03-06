@@ -23,7 +23,21 @@ let letterBonus = {
     }
 }
 
+let milestonesReached = {}
+
 let selectedupgradeKey
+
+let totalMilestones
+
+fetch("data/totalMilestones.json")
+    .then(response => { return response.json() })
+    .then(data => totalMilestones = data)
+
+let individualMilestones
+
+fetch("data/individualMilestones.json")
+    .then(response => { return response.json() })
+    .then(data => individualMilestones = data)
 
 document.addEventListener("keypress", function (event) {
     let keyName = event.key.toUpperCase()
@@ -41,6 +55,7 @@ document.addEventListener("keypress", function (event) {
     key.element.classList.add("pressed")
     makeVisible(key.element.id)
     makeVisible(`upgrade${keyName}`)
+    makeVisible(`milestone${keyName}`)
     key.clicked()
     let clickgain = key.clickValue
     if (unlockedList.letterBonus) if (useBonusLetter(keyName)) clickgain *= letterBonus.multiplier
@@ -51,6 +66,7 @@ document.addEventListener("keypress", function (event) {
         key.pressed = false
     }, key.cooldown)
     checkUnlock()
+    updateMilestones()
     updateCurencies()
 });
 
@@ -72,7 +88,7 @@ function checkUnlock() {
     if (clicks >= 20) unlock("letterBonus")
     if (unlockedList.letterBonus) {
         if (!Object.keys(keys).some((element) => letterBonus.list.includes(element))) {
-            console.log("fisk")
+
             unlock("letterBonusRedo")
         }
     }
@@ -94,6 +110,7 @@ function unlock(unlocked) {
     if (unlocked == "letterBonusRedo") { makeVisible("resetLetterBonus") }
     if (unlocked == "letterBonusCombo") { makeVisible("comboProg"); makeVisible("comboText") }
     if (unlocked == "menu") { makeVisible("menu") }
+    if (unlocked == "milestones") {unlockMenuButton("milestones")}
 }
 
 /**
@@ -262,10 +279,10 @@ function resetLetterBonus() {
  * @param {string} page - name of new page
  */
 function changePage(page) {
-    let pageElements = ["game", "upgrade", "perkPage"]
+    let pageElements = document.getElementById("pages").children
     for (element of pageElements) {
-        makeHidden(element)
-        document.getElementById(`${element}Button`).classList.remove("active")
+        makeHidden(element.id)
+        document.getElementById(`${element.id}Button`).classList.remove("active")
     }
     makeVisible(page)
     document.getElementById(`${page}Button`).classList.add("active")
@@ -305,3 +322,62 @@ function upgradeButton(button, type, amount) {
     button.getElementsByTagName("p")[0].innerHTML = `curent: ${key[button.name]} costs: ${key.upgradeCost[button.name]}`
 }
 
+/**
+ * Checks if a number is a 10^x
+ * @param {number} number - number to check 
+ * @returns {boolean} true if number is a 10^x
+ */
+function isPowerOf10(number) {
+    if (number % 10 != 0 || number == 0) return false
+
+    if (number == 10) return true
+
+    return isPowerOf10(number / 10)
+}
+
+function updateMilestones() {
+    for (let [name, key] of Object.entries(keys)) {
+        document.getElementById(`milestone${key.name}`).innerHTML = `${key.name} <br>${key.clicks}`
+        if (key.clicks % 10 == 0) milestoneUp(key)
+
+        let totalMilestonesTab = document.getElementById("totalMilestones")
+        while (totalMilestonesTab.firstChild) {
+            totalMilestonesTab.removeChild(totalMilestonesTab.lastChild)
+        }
+        for (let name of Object.keys(totalMilestones)) for (let milestone of totalMilestones[name]) {
+            let mE = document.createElement("div")
+            if (!milestone.done) mE.classList.add("active")
+            let p1 = document.createElement("p")
+            p1.innerHTML = `Have ${milestone.requires} keys with ${name} or more clicks`
+            let p2 = document.createElement("p")
+            p2.innerHTML = milestone.description
+            mE.appendChild(p1)
+            mE.appendChild(p2)
+            totalMilestonesTab.appendChild(mE)
+        }
+
+    }
+}
+
+function milestoneUp(key) {
+    let name = key.clicks.toString()
+    if (key.clicks > 50) unlock("milestones")
+
+    if (totalMilestones[name] == undefined) return
+    if (milestonesReached[name] == undefined) milestonesReached[name] = 0
+    milestonesReached[name]++
+    for (let milestone of totalMilestones[name]) {
+        if (milestonesReached[name] == milestone.requires) { eval(milestone.effect); milestone.done = true }
+    }
+}
+
+function milestoneTab(name, elm) {
+    for (thing of ["milestoneOverview", "totalMilestones"]) {
+        if (name == thing) makeVisible(thing)
+        else makeHidden(thing)
+    }
+    for (button of document.getElementById("milestones").getElementsByClassName("tabs")[0].getElementsByTagName("button")) {
+        button.classList.remove("active")
+    }
+    elm.classList.add("active")
+}

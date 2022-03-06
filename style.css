@@ -6,6 +6,11 @@ body {
     height: 90vh;
 }
 
+body>div {
+    width: 60%;
+    height: 80%;
+}
+
 #menu {
     position: absolute;
     top: 10%;
@@ -31,6 +36,7 @@ body {
     margin-left: 5px;
     transition: background-color 1s;
 }
+
 #menu>button:hover {
     background-color: rgb(208, 208, 215);
     transition: background-color 0.5s;
@@ -135,4 +141,20 @@ body {
 
 .noDisplay {
     display: none;
+}
+
+.tabs {
+    position: absolute;
+    display: flex;
+    top: 120px;
+    left: 150px;
+    right: 150px;
+    border-bottom: solid 1px black;
+}
+
+.tabs>button {
+    border: none;
+    padding: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
