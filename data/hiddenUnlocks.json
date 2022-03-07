@@ -1,0 +1,17 @@
+{
+    "letterBonusCombo": {
+        "hint": "Have a streak of greatness",
+        "reward": "Unlocked Letter Bonus Combo",
+        "effect": "makeVisible('comboProg'); makeVisible('comboText')"
+    },
+    "letterBonusRedo": {
+        "hint": "Run out of options",
+        "reward": "Ability to reset letter bonus",
+        "effect": "makeVisible('resetLetterBonus')"
+    },
+    "milestones": {
+        "hint": "Love your favourite 50",
+        "reward": "Unlocked milestones",
+        "effect": "unlockMenuButton('milestonesButton', 'Milestones')"
+    }
+}

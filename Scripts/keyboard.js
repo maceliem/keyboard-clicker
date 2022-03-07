@@ -39,6 +39,19 @@ fetch("data/individualMilestones.json")
     .then(response => { return response.json() })
     .then(data => individualMilestones = data)
 
+let hiddenUnlockList
+
+fetch("data/hiddenUnlocks.json")
+    .then(response => { return response.json() })
+    .then(data => hiddenUnlockList = data)
+
+document.addEventListener("mousemove", function(event) {
+    style = document.documentElement.style
+    style.setProperty(`--mouse-x`, `${event.pageX}px`)
+    style.setProperty(`--mouse-y`,  `${event.pageY}px`)
+    
+})
+
 document.addEventListener("keypress", function (event) {
     let keyName = event.key.toUpperCase()
     if (!keyName.match(/[A-Z]/)) return
@@ -105,12 +118,11 @@ function unlock(unlocked) {
     unlockedList[unlocked] = true
     console.log("unlocked: ", unlocked)
     if (unlocked == "clicks") { makeVisible("clicks") }
-    if (unlocked == "keyAmount") { makeVisible("keyAmount"); keyStats.max++ }
-    if (unlocked == "letterBonus") { generateNewBonusLetter(); makeVisible("letterBonus"); keyStats.max++ }
-    if (unlocked == "letterBonusRedo") { makeVisible("resetLetterBonus") }
-    if (unlocked == "letterBonusCombo") { makeVisible("comboProg"); makeVisible("comboText") }
-    if (unlocked == "menu") { makeVisible("menu") }
-    if (unlocked == "milestones") { unlockMenuButton("milestonesButton", "Milestones") }
+    else if (unlocked == "keyAmount") { makeVisible("keyAmount"); keyStats.max++ }
+    else if (unlocked == "letterBonus") { generateNewBonusLetter(); makeVisible("letterBonus"); keyStats.max++ }
+    else if (unlocked == "menu") { makeVisible("menu") }
+    else eval(hiddenUnlockList[unlocked].effect)
+    updateHiddenUnlockPage()
 }
 
 /**
@@ -333,7 +345,7 @@ function upgradeKeyButton(button, type, amount) {
     clicks -= price
     key.upgradeTier[button.name]++
     eval(`key[button.name] ${type}= ${amount}`)
-    key.upgradeCost[button.name] = Math.pow(key.upgradeTier[button.name], 2) * 10
+    key.upgradeCost[button.name] = Math.pow(key.upgradeTier[button.name], 2) * 20
     updateCurencies()
     button.getElementsByTagName("p")[0].innerHTML = `curent: ${key[button.name]} costs: ${key.upgradeCost[button.name]}`
 }
@@ -408,4 +420,20 @@ function upgradeTab(name, elm) {
         button.classList.remove("active")
     }
     elm.classList.add("active")
+}
+
+function updateHiddenUnlockPage() {
+    let page = document.getElementById("hiddenUnlocks")
+    page.innerHTML = ``
+    for(let [name, info] of Object.entries(hiddenUnlockList)){
+        console.log(name)
+        let elm = document.createElement("div")
+        let span = document.createElement("span")
+        elm.innerHTML = "???"
+        span.innerHTML = info.hint
+        if (unlockedList[name]) span.innerHTML += `<br> ${info.reward}`
+        else elm.classList.add("active")
+        elm.appendChild(span)
+        page.appendChild(elm)
+    }
 }
