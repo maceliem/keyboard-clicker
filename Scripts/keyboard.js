@@ -1,55 +1,8 @@
-let clicks = 0
-
-let keyStats = {
-    amount: 0,
-    max: 1
-}
-
-
-let keys = {}
-
-let unlockedList = {}
-
-let letterBonus = {
-    list: [],
-    display: 3,
-    multiplier: 2,
-    resetCooldown: 5000,
-    combo: {
-        prog: 0,
-        perTier: 10,
-        tier: 0,
-        maxTier: 3
-    }
-}
-
-let milestonesReached = {}
-
-let selectedupgradeKey
-
-let totalMilestones
-
-fetch("data/totalMilestones.json")
-    .then(response => { return response.json() })
-    .then(data => totalMilestones = data)
-
-let individualMilestones
-
-fetch("data/individualMilestones.json")
-    .then(response => { return response.json() })
-    .then(data => individualMilestones = data)
-
-let hiddenUnlockList
-
-fetch("data/hiddenUnlocks.json")
-    .then(response => { return response.json() })
-    .then(data => hiddenUnlockList = data)
-
-document.addEventListener("mousemove", function(event) {
+document.addEventListener("mousemove", function (event) {
     style = document.documentElement.style
     style.setProperty(`--mouse-x`, `${event.pageX}px`)
-    style.setProperty(`--mouse-y`,  `${event.pageY}px`)
-    
+    style.setProperty(`--mouse-y`, `${event.pageY}px`)
+
 })
 
 document.addEventListener("keypress", function (event) {
@@ -425,7 +378,7 @@ function upgradeTab(name, elm) {
 function updateHiddenUnlockPage() {
     let page = document.getElementById("hiddenUnlocks")
     page.innerHTML = ``
-    for(let [name, info] of Object.entries(hiddenUnlockList)){
+    for (let [name, info] of Object.entries(hiddenUnlockList)) {
         console.log(name)
         let elm = document.createElement("div")
         let span = document.createElement("span")
