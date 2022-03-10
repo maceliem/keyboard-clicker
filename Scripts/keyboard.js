@@ -7,6 +7,12 @@ document.addEventListener("mousemove", function (event) {
 
 document.addEventListener("keypress", function (event) {
     let keyName = event.key.toUpperCase()
+    if (keyName.match(/[1-9]/)){
+        let button = document.getElementById("menu").getElementsByTagName("button")[parseInt(keyName)-1]
+        if(!button.disabled) {
+            button.onclick()
+        }
+    }
     if (!keyName.match(/[A-Z]/)) return
 
     if (!(keyName in keys)) {
@@ -379,7 +385,6 @@ function updateHiddenUnlockPage() {
     let page = document.getElementById("hiddenUnlocks")
     page.innerHTML = ``
     for (let [name, info] of Object.entries(hiddenUnlockList)) {
-        console.log(name)
         let elm = document.createElement("div")
         let span = document.createElement("span")
         elm.innerHTML = "???"
